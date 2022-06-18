@@ -119,8 +119,8 @@ export const updateUser = async(req: Req, res: Response) => {
         if(/(84|0[3|5|7|8|9])+([0-9]{8})\b/.test(phone)) {
             if(!passwords) {
                 const userExisting = await pool?.query(`select * from users where phone = ? `, [phone])  as RowDataPacket
-    
-                if(userExisting?.[0].length > 0 && userExisting?.[0][0].id !== id) return res.status(401).json({message: 'người dùng đã tồn tại', success: false})
+                
+                if(userExisting?.[0][0].id && userExisting?.[0][0].id !== id) return res.status(401).json({message: 'người dùng đã tồn tại', success: false})
     
                 const updateUser = await pool?.query(`update users set nameUser = ?, phone = ?, updatedAt = ? where id = ?`, [nameUser, phone, updatedAt, id]) as RowDataPacket
     
